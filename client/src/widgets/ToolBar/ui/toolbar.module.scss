@@ -1,0 +1,20 @@
+.toolbar {
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 4px 5px gray;
+    display: flex;
+    height: var(--toolbar-height);
+    position: absolute;
+    width: 100%;
+    z-index: 999;
+}
+
+.toolbarBtn {
+    background-size: cover;
+    border: none;
+    cursor: pointer;
+    height: 25px;
+    margin-left: 10px;
+    outline: none;
+    width: 25px;
+}

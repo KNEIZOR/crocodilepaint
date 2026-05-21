@@ -1,0 +1,15 @@
+.settingbar {
+    align-items: center;
+    background-color: white;
+    box-shadow: 0 4px 5px gray;
+    display: flex;
+    height: var(--toolbar-height);
+    position: absolute;
+    top: var(--toolbar-height);
+    width: 100%;
+}
+
+.settingBarItem {
+    align-items: center;
+    display: flex;
+}

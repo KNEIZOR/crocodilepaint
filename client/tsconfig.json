@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "rootDir": "src",
+        "noImplicitAny": true,
+        "module": "nodenext",
+        "moduleResolution": "nodenext",
+        "baseUrl": ".",
+        "paths": {
+            "app/*": ["src/app/*"],
+            "shared/*": ["src/shared/*"],
+            "entities/*": ["src/entities/*"],
+            "features/*": ["src/features/*"],
+            "widgets/*": ["src/widgets/*"]
+        },
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "esnext",
+        "jsx": "react-jsx",
+        "types": ["node"],
+        "allowJs": true
+    },
+    "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"],
+    "exclude": ["node_modules"]
+}
