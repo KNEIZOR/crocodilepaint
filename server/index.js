@@ -7,8 +7,10 @@ const PORT = process.env.PORT || 5000;
 const fs = require('fs');
 const path = require('path');
 
+
 app.use(cors());
 app.use(express.json());
+
 
 app.ws('/', (ws, req) => {
     ws.on('message', (msg) => {

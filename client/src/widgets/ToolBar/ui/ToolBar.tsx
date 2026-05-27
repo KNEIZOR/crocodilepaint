@@ -1,9 +1,9 @@
 import { useStore } from 'app/providers/storeProvider';
-import cls from './toolbar.module.scss';
 import Button from 'shared/ui/Button/Button';
 import { createToolbarConfig } from '../model/toolBarConfig';
 import { Input } from 'shared/ui/Input/Input';
 import { observer } from 'mobx-react-lite';
+import cls from './toolbar.module.scss';
 
 export const ToolBar = observer(() => {
     const { canvasStore, toolStore, sessionStore } = useStore();
