@@ -2,6 +2,14 @@ interface IFigure {
     type: string;
     x?: number;
     y?: number;
+    width?: number;
+    height?: number;
+    radius?: number;
+    currentX?: number;
+    currentY?: number;
+    color?: string;
+    stroke?: string;
+    lineWidth?: number;
 }
 
 export function sendSocketData(

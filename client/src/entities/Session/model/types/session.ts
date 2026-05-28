@@ -8,6 +8,11 @@ export interface WsData {
         y?: number;
         width?: number;
         height?: number;
+        radius?: number;
+        currentX?: number;
+        currentY?: number;
         color?: string;
+        stroke?: string;
+        lineWidth?: number;
     };
 }

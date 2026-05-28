@@ -1,0 +1,15 @@
+.backButton {
+    position: absolute;
+    left: 10px;
+    top: 100px;
+    padding: 10px 15px;
+    background-color: blue;
+    color: white;
+    border-radius: 10px;
+    transition: .2s;
+}
+
+.backButton:hover{
+    background-color: rgb(65, 167, 251);
+    transition: .2s;
+}

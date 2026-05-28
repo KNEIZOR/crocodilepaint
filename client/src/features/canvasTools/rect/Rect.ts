@@ -40,6 +40,8 @@ export default class Rect extends Tool {
                         width: this.width,
                         height: this.height,
                         color: this.ctx?.fillStyle,
+                        stroke: this.ctx?.strokeStyle,
+                        lineWidth: this.ctx?.lineWidth
                     },
                 }),
             );
@@ -82,13 +84,17 @@ export default class Rect extends Tool {
         w: number,
         h: number,
         color: string,
+        stroke: string,
+        lineWidth: number,
     ) {
-        if (ctx) {
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx?.rect(x, y, w, h);
-            ctx?.fill();
-            ctx?.stroke();
-        }
+        if (!ctx) return;
+
+        ctx.fillStyle = color;
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = lineWidth;
+        ctx.beginPath();
+        ctx?.rect(x, y, w, h);
+        ctx?.fill();
+        ctx?.stroke();
     }
 }

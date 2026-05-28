@@ -27,6 +27,7 @@
         "no-unused-vars": "warn",
         "@typescript-eslint/no-unused-vars": "off",
         "react/react-in-jsx-scope": "off",
-        "react/display-name": "off"
+        "react/display-name": "off",
+        "@typescript-eslint/ban-ts-comment": "warn"
     }
 }

@@ -9,12 +9,14 @@ export default class Eraser extends Brush {
         super(canvas, websoket, id);
     }
 
-    draw(x: number, y: number) {
-        if (this.ctx) {
-            this.ctx.strokeStyle = 'white';
-            this.ctx?.lineTo(x, y);
-            this.ctx?.stroke();
-            this.ctx.strokeStyle = 'red';
-        }
+    static draw(
+        ctx: CanvasRenderingContext2D | null | undefined,
+        x: number,
+        y: number,
+    ) {
+        if(!ctx) return
+        ctx.strokeStyle = 'white';
+        ctx?.lineTo(x, y);
+        ctx?.stroke();
     }
 }

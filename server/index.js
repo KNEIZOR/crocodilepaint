@@ -50,7 +50,7 @@ app.get('/image', (req, res) => {
             );
         } catch {
             file = fs.readFileSync(
-                path.resolve(__dirname, 'files', 'f19e3a7ce884.jpg'),
+                path.resolve(__dirname, 'files', 'base.jpg'),
             );
         }
 

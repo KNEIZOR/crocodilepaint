@@ -40,6 +40,9 @@ export const ToolBar = observer(() => {
                                 backgroundImage: item.icon
                                     ? `url(${item.icon})`
                                     : undefined,
+                                width: '25px',
+                                height: '25px',
+                                margin: '0 0 0 10px',
                             }}
                             onClick={() => item.onClick()}
                         />

@@ -8,7 +8,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = memo((props: ButtonProps) => {
     const { className, children, ...oherProps } = props;
 
-    return <button className={`${cls.button} ${className ? className : ''}`} {...oherProps}>{children}</button>;
+    return (
+        <button
+        className={`${cls.button} ${className ? className : ''}`}
+            {...oherProps}
+        >
+            {children}
+        </button>
+    );
 });
 
 export default Button;

@@ -2,9 +2,12 @@
     "compilerOptions": {
         "rootDir": "src",
         "noImplicitAny": true,
+        "strict": true,
         "module": "nodenext",
-        "moduleResolution": "nodenext",
+        "moduleResolution": "node16",
+        "resolvePackageJsonExports": false,
         "baseUrl": ".",
+        "ignoreDeprecations": "6.0",
         "paths": {
             "app/*": ["src/app/*"],
             "shared/*": ["src/shared/*"],

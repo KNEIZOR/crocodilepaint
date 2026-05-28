@@ -27,6 +27,22 @@ export default class Line extends Tool {
 
     mouseUpHandler(e: MouseEvent) {
         this.mouseDown = false;
+        if (this.canvas && this.socket) {
+            this.socket.send(
+                JSON.stringify({
+                    method: 'draw',
+                    id: this.id,
+                    figure: {
+                        type: 'line',
+                        x: this.startX,
+                        y: this.startY,
+                        currentX: this.currentX,
+                        currentY: this.currentY,
+                        color: this.ctx?.fillStyle,
+                    },
+                }),
+            );
+        }
     }
     mouseDownHandler(e: MouseEvent) {
         if (this.canvas) {
@@ -40,6 +56,8 @@ export default class Line extends Tool {
     }
     mouseMoveHandler(e: MouseEvent) {
         if (this.mouseDown && this.canvas) {
+            this.startX = e.pageX - this.canvas?.offsetLeft
+            this.startY = e.pageY - this.canvas?.offsetTop
             this.draw(
                 e.pageX - this.canvas?.offsetLeft,
                 e.pageY - this.canvas?.offsetTop,
@@ -67,5 +85,22 @@ export default class Line extends Tool {
                 this.ctx?.stroke();
             }
         };
+    }
+
+    static staticDraw(
+        ctx: CanvasRenderingContext2D | null | undefined,
+        x: number,
+        y: number,
+        currentX: number,
+        currentY: number,
+        color: string,
+    ) {
+        if (!ctx) return;
+
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx?.moveTo(currentX, currentY);
+        ctx?.lineTo(x, y);
+        ctx?.stroke();
     }
 }

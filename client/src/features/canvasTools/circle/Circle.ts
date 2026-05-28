@@ -3,9 +3,10 @@ import { resetCanvas } from 'features/clearCanvas/resetCanvas';
 
 export default class Cirlce extends Tool {
     mouseDown = false;
-    startX: number = 0;
-    startY: number = 0;
-    saved: string = '';
+    startX = 0;
+    startY = 0;
+    saved = '';
+    radius = 0;
 
     constructor(
         canvas: HTMLCanvasElement | null,
@@ -26,6 +27,23 @@ export default class Cirlce extends Tool {
 
     mouseUpHandler(e: MouseEvent) {
         this.mouseDown = false;
+        if (this.canvas && this.socket) {
+            this.socket.send(
+                JSON.stringify({
+                    method: 'draw',
+                    id: this.id,
+                    figure: {
+                        type: 'circle',
+                        x: this.startX,
+                        y: this.startY,
+                        radius: this.radius,
+                        color: this.ctx?.fillStyle,
+                        stroke: this.ctx?.strokeStyle,
+                        lineWidth: this.ctx?.lineWidth,
+                    },
+                }),
+            );
+        }
     }
     mouseDownHandler(e: MouseEvent) {
         if (this.canvas) {
@@ -42,17 +60,37 @@ export default class Cirlce extends Tool {
             const currentY = e.pageY - this.canvas.offsetTop;
             const width = currentX - this.startX;
             const height = currentY - this.startY;
-            const radius = Math.sqrt(width ** 2 + height ** 2);
+            this.radius = Math.sqrt(width ** 2 + height ** 2);
 
-            this.draw(this.startX, this.startY, radius);
+            this.draw(this.startX, this.startY, this.radius);
         }
     }
 
     draw(x: number, y: number, r: number) {
         if (!this.ctx || !this.canvas) return;
         resetCanvas(this.saved, this.ctx, this.canvas, (ctx) => {
-            this.ctx?.arc(x, y, r, 0, 2 * Math.PI);
-            this.ctx?.fill();
+            ctx?.arc(x, y, r, 0, 2 * Math.PI);
+            ctx?.fill();
         });
+    }
+
+    static staticDraw(
+        ctx: CanvasRenderingContext2D | null | undefined,
+        x: number,
+        y: number,
+        r: number,
+        color: string,
+        stroke: string,
+        lineWidth: number,
+    ) {
+        if (!ctx) return;
+
+        ctx.fillStyle = color;
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = lineWidth
+        ctx.beginPath();
+        ctx?.arc(x, y, r, 0, 2 * Math.PI);
+        ctx?.fill();
+        ctx?.stroke();
     }
 }

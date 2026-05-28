@@ -44,10 +44,12 @@ export default class Brush extends Tool {
         if (!this.mouseDown || !this.canvas || !this.socket || !this.id) return;
             
         const coords = getCoords(e, this.canvas);
+        
         sendSocketData(this.socket, this.id, 'draw', {
             type: 'brush',
             x: coords.x,
             y: coords.y,
+
         });
     }
 

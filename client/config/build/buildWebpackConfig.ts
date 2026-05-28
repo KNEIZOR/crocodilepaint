@@ -26,9 +26,19 @@ export function buildWebpackConfig(options: BuildOptions): Configuration {
         },
 
         optimization: {
-            splitChunks: { chunks: 'all' },
+            splitChunks: {
+                chunks: 'all',
+                cacheGroups: {
+                    react: {
+                        test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+                        name: 'react-vendor',
+                        chunks: 'all',
+                    },
+                },
+            },
             runtimeChunk: 'single',
             minimize: !isDev,
+            usedExports: true,
         },
 
         module: {

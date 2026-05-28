@@ -6,6 +6,7 @@ import { useStore } from 'app/providers/storeProvider';
 import { ConnectModal } from 'features/auth/connect';
 import { postCanvas, useGetCanvas } from 'entities/Canvas';
 import { useCanvasSession } from 'entities/Session';
+import BackButton from 'shared/ui/BackButton/BackButton';
 
 export const Canvas = observer(() => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -25,6 +26,7 @@ export const Canvas = observer(() => {
     return (
         <div className={cls.canvas}>
             <ConnectModal />
+            <BackButton />
             <canvas
                 onMouseUp={() => mouseUpHandler()}
                 ref={canvasRef}

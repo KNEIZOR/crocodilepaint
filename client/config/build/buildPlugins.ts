@@ -4,6 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { WebpackPluginInstance } from 'webpack';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import webpack from 'webpack';
 
 export function buildPlugins({
@@ -27,11 +28,16 @@ export function buildPlugins({
                 },
             ],
         }),
-        new webpack.ProgressPlugin()
+        new webpack.ProgressPlugin(),
     ];
 
     if (isDev) {
         plugins.push(new ReactRefreshWebpackPlugin());
+        plugins.push(
+            new BundleAnalyzerPlugin({
+                openAnalyzer: false,
+            }),
+        );
     }
 
     return plugins;
