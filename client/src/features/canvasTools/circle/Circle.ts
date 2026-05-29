@@ -85,6 +85,8 @@ export default class Cirlce extends Tool {
     ) {
         if (!ctx) return;
 
+        ctx.save()
+
         ctx.fillStyle = color;
         ctx.strokeStyle = stroke;
         ctx.lineWidth = lineWidth
@@ -92,5 +94,7 @@ export default class Cirlce extends Tool {
         ctx?.arc(x, y, r, 0, 2 * Math.PI);
         ctx?.fill();
         ctx?.stroke();
+
+        ctx.restore()
     }
 }

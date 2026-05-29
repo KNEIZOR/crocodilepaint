@@ -19,7 +19,6 @@ import undoIcon from 'shared/assets/img/undo.png';
 import redoIcon from 'shared/assets/img/redo.png';
 import saveIcon from 'shared/assets/img/save.png';
 
-
 type ToolbarItem =
     | {
           type: 'button';
@@ -136,7 +135,8 @@ export const createToolbarConfig = ({
         type: 'button',
         icon: undoIcon,
         className: 'undo',
-        onClick: () => undoService.undo(),
+        onClick: () =>
+            undoService.undo(sessionStore.socket, sessionStore.sessionId),
     },
 
     {

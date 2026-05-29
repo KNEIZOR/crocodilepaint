@@ -14,5 +14,6 @@ export interface WsData {
         color?: string;
         stroke?: string;
         lineWidth?: number;
+        canvas?: string | undefined;
     };
 }

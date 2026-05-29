@@ -15,8 +15,13 @@ export default class Eraser extends Brush {
         y: number,
     ) {
         if(!ctx) return
+
+        ctx.save()
+
         ctx.strokeStyle = 'white';
         ctx?.lineTo(x, y);
         ctx?.stroke();
+
+        ctx.restore()
     }
 }

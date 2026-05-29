@@ -7,9 +7,10 @@ interface IFigure {
     radius?: number;
     currentX?: number;
     currentY?: number;
-    color?: string;
-    stroke?: string;
+    color?: string | CanvasGradient | CanvasPattern | undefined;
+    stroke?: string | CanvasGradient | CanvasPattern | undefined;
     lineWidth?: number;
+    canvas?: string | undefined;
 }
 
 export function sendSocketData(

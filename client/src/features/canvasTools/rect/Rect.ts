@@ -89,6 +89,8 @@ export default class Rect extends Tool {
     ) {
         if (!ctx) return;
 
+        ctx.save()
+
         ctx.fillStyle = color;
         ctx.strokeStyle = stroke;
         ctx.lineWidth = lineWidth;
@@ -96,5 +98,7 @@ export default class Rect extends Tool {
         ctx?.rect(x, y, w, h);
         ctx?.fill();
         ctx?.stroke();
+
+        ctx.restore()
     }
 }

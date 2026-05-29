@@ -39,6 +39,8 @@ export default class Line extends Tool {
                         currentX: this.currentX,
                         currentY: this.currentY,
                         color: this.ctx?.fillStyle,
+                        stroke: this.ctx?.strokeStyle,
+                        lineWidth: this.ctx?.lineWidth
                     },
                 }),
             );
@@ -56,8 +58,8 @@ export default class Line extends Tool {
     }
     mouseMoveHandler(e: MouseEvent) {
         if (this.mouseDown && this.canvas) {
-            this.startX = e.pageX - this.canvas?.offsetLeft
-            this.startY = e.pageY - this.canvas?.offsetTop
+            this.startX = e.pageX - this.canvas?.offsetLeft;
+            this.startY = e.pageY - this.canvas?.offsetTop;
             this.draw(
                 e.pageX - this.canvas?.offsetLeft,
                 e.pageY - this.canvas?.offsetTop,
@@ -94,13 +96,21 @@ export default class Line extends Tool {
         currentX: number,
         currentY: number,
         color: string,
+        stroke: string,
+        lineWidth: number,
     ) {
         if (!ctx) return;
 
+        ctx.save();
+
         ctx.fillStyle = color;
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = lineWidth;
         ctx.beginPath();
         ctx?.moveTo(currentX, currentY);
         ctx?.lineTo(x, y);
         ctx?.stroke();
+
+        ctx.restore();
     }
 }

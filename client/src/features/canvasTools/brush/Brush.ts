@@ -25,13 +25,13 @@ export default class Brush extends Tool {
     private mouseUpHandler(e: MouseEvent) {
         this.mouseDown = false;
         if (!this.socket || !this.id) return;
-        
+
         sendSocketData(this.socket, this.id, 'draw', { type: 'finish' });
     }
 
     private mouseDownHandler(e: MouseEvent) {
         if (!this.canvas) return;
-        
+
         this.mouseDown = true;
         this.ctx?.beginPath();
         this.ctx?.moveTo(
@@ -42,14 +42,16 @@ export default class Brush extends Tool {
 
     private mouseMoveHandler(e: MouseEvent) {
         if (!this.mouseDown || !this.canvas || !this.socket || !this.id) return;
-            
+
         const coords = getCoords(e, this.canvas);
-        
+
         sendSocketData(this.socket, this.id, 'draw', {
             type: 'brush',
             x: coords.x,
             y: coords.y,
-
+            lineWidth: this.ctx?.lineWidth,
+            stroke: this.ctx?.strokeStyle,
+            color: this.ctx?.fillStyle,
         });
     }
 
@@ -57,8 +59,21 @@ export default class Brush extends Tool {
         ctx: CanvasRenderingContext2D | null | undefined,
         x: number,
         y: number,
+        lineWidth: number,
+        stroke: string | CanvasGradient | CanvasPattern,
+        color: string | CanvasGradient | CanvasPattern,
     ) {
+        if (!ctx) return;
+
+        ctx.save()
+
+        
+        ctx.fillStyle = color;
+        ctx.strokeStyle = stroke;
+        ctx.lineWidth = lineWidth;
         ctx?.lineTo(x, y);
         ctx?.stroke();
+
+        ctx.restore()
     }
 }
