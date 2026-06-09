@@ -1,32 +1,59 @@
 import { Navigate, RouteProps } from 'react-router-dom';
+import CrocodilePage from 'src/pages/CrocodilePage/ui/CrocodilePage';
 import { PaintOnlinePage } from 'src/pages/PaintOnlinePage';
 import { StartPage } from 'src/pages/StartPage';
 
 export enum AppRoutes {
     START = 'start',
     PAINT_ONLINE = 'paint_online',
+    CROCODILE = 'crocodile',
+    CROCODILE_NOT_FOUND = 'crocodile_not_found',
+    PAINT_NOT_FOUND = 'paint_not_found',
     NOT_FOUND = 'not_found',
 }
 
 export const routePath: Record<AppRoutes, string> = {
     [AppRoutes.START]: '/',
+    [AppRoutes.CROCODILE]: '/crocodile/:id',
+    [AppRoutes.CROCODILE_NOT_FOUND]: '/crocodile/*',
     [AppRoutes.PAINT_ONLINE]: '/paint-online/:id',
-    [AppRoutes.NOT_FOUND]: '/paint-online/*',
+    [AppRoutes.PAINT_NOT_FOUND]: '/paint-online/*',
+    [AppRoutes.NOT_FOUND]: '/*',
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
     [AppRoutes.START]: {
         path: routePath.start,
-        element: <StartPage />
+        element: <StartPage />,
+    },
+    [AppRoutes.CROCODILE]: {
+        path: routePath.crocodile,
+        element: <CrocodilePage />,
+    },
+    [AppRoutes.CROCODILE_NOT_FOUND]: {
+        path: routePath.crocodile_not_found,
+        element: (
+            <Navigate
+                to={`/crocodile/f${(+new Date()).toString(16)}`}
+                replace
+            />
+        ),
     },
     [AppRoutes.PAINT_ONLINE]: {
         path: routePath.paint_online,
+        element: <PaintOnlinePage />,
+    },
+    [AppRoutes.PAINT_NOT_FOUND]: {
+        path: routePath.paint_not_found,
         element: (
-            <PaintOnlinePage />
+            <Navigate
+                to={`/paint-online/f${(+new Date()).toString(16)}`}
+                replace
+            />
         ),
     },
     [AppRoutes.NOT_FOUND]: {
         path: routePath.not_found,
-        element: <Navigate to={`/paint-online/f${(+new Date()).toString(16)}`} replace />,
+        element: <Navigate to={'/'} replace />,
     },
 };

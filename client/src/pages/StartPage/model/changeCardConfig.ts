@@ -10,6 +10,6 @@ export const changeCardConfig: IChangeCardConfig[] = [
     {
         title: 'CROCODILE',
         text: 'Игра где вы со своими друзьями можете рисовать один рисунок',
-        link: ''
+        link: `${routePath.crocodile}/f${(+new Date()).toString(16)}`
     },
 ];
