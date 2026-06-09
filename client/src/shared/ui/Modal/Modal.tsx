@@ -14,8 +14,6 @@ interface IModalProps {
 export const Modal = (props: IModalProps) => {
     const { isOpen, title, children, submitText, onClose, onSubmit } = props;
 
-
-
     return (
         <Portal>
             {isOpen && <div className={`${cls.modal}`}>

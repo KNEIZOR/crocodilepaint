@@ -19,9 +19,9 @@ export default class Cirlce extends Tool {
 
     listen() {
         if (this.canvas) {
-            this.canvas.onmouseup = this.mouseUpHandler.bind(this);
-            this.canvas.onmousedown = this.mouseDownHandler.bind(this);
-            this.canvas.onmousemove = this.mouseMoveHandler.bind(this);
+            this.canvas.onpointerup = this.mouseUpHandler.bind(this);
+            this.canvas.onpointerdown = this.mouseDownHandler.bind(this);
+            this.canvas.onpointermove = this.mouseMoveHandler.bind(this);
         }
     }
 
@@ -47,6 +47,7 @@ export default class Cirlce extends Tool {
     }
     mouseDownHandler(e: MouseEvent) {
         if (this.canvas) {
+            this.canvas.style.touchAction = 'none';
             this.mouseDown = true;
             this.ctx?.beginPath();
             this.startX = e.pageX - this.canvas.offsetLeft;

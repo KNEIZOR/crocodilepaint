@@ -1,8 +1,8 @@
-export function getCoords(e: MouseEvent, canvas: HTMLCanvasElement) {
+export function getCoords(e: PointerEvent, canvas: HTMLCanvasElement) {
     const rect = canvas.getBoundingClientRect();
 
     return {
-        x: e.pageX - rect.left,
-        y: e.pageY - rect.top,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
     };
 }

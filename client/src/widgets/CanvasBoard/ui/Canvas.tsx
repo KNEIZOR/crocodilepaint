@@ -28,10 +28,10 @@ export const Canvas = observer(() => {
             <ConnectModal />
             <BackButton />
             <canvas
-                onMouseUp={() => mouseUpHandler()}
-                ref={canvasRef}
                 width={600}
                 height={400}
+                onPointerUp={() => mouseUpHandler()}
+                ref={canvasRef}
             />
         </div>
     );

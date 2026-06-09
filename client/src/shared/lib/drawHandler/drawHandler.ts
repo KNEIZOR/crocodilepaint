@@ -15,13 +15,15 @@ export function drawHandler(msg: WsData, canvas: HTMLCanvasElement | null) {
                 figure.y === undefined ||
                 !figure.stroke ||
                 !ctx ||
-                !figure.lineWidth
+                !figure.lineWidth ||
+                !figure.color
             )
                 return;
             ctx?.beginPath();
             ctx?.moveTo(figure.x, figure.y);
             ctx.strokeStyle = figure.stroke;
             ctx.lineWidth = figure.lineWidth;
+            ctx.fillStyle = figure.color;
             break;
         case 'brush':
             if (
@@ -29,15 +31,17 @@ export function drawHandler(msg: WsData, canvas: HTMLCanvasElement | null) {
                 figure.y !== undefined &&
                 figure.lineWidth &&
                 figure.stroke &&
-                figure.color
+                ctx &&
+                ctx.strokeStyle &&
+                ctx.fillStyle
             ) {
                 Brush.draw(
                     ctx,
                     figure.x,
                     figure.y,
-                    figure.lineWidth,
-                    figure.stroke,
-                    figure.color,
+                    ctx.lineWidth,
+                    ctx.strokeStyle,
+                    ctx.fillStyle,
                 );
             }
             break;

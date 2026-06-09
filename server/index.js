@@ -27,6 +27,8 @@ app.ws('/', (ws, req) => {
 });
 
 app.post('/image', (req, res) => {
+    console.log('HEADERS:', req.headers['content-type']);
+    console.log('BODY:', req.body);
     try {
         const data = req.body.img.replace(`data:image/png;base64,`, '');
         fs.writeFileSync(
@@ -34,6 +36,7 @@ app.post('/image', (req, res) => {
             data,
             'base64',
         );
+        
         return res.status(200).json({ message: 'Загружено' });
     } catch (e) {
         console.log(e);

@@ -16,31 +16,31 @@ export default class Brush extends Tool {
 
     listen() {
         if (this.canvas) {
-            this.canvas.onmouseup = this.mouseUpHandler.bind(this);
-            this.canvas.onmousedown = this.mouseDownHandler.bind(this);
-            this.canvas.onmousemove = this.mouseMoveHandler.bind(this);
+            this.canvas.style.touchAction = 'none';
+            this.canvas.onpointerup = this.mouseUpHandler.bind(this);
+            this.canvas.onpointerdown = this.mouseDownHandler.bind(this);
+            this.canvas.onpointermove = this.mouseMoveHandler.bind(this);
+            this.canvas.onpointercancel = this.mouseUpHandler.bind(this);
         }
     }
 
-    private mouseUpHandler(e: MouseEvent) {
+    private mouseUpHandler(e: PointerEvent) {
         this.mouseDown = false;
         if (!this.socket || !this.id) return;
 
         sendSocketData(this.socket, this.id, 'draw', { type: 'finish' });
     }
 
-    private mouseDownHandler(e: MouseEvent) {
+    private mouseDownHandler(e: PointerEvent) {
         if (!this.canvas) return;
-
+        const coords = getCoords(e, this.canvas);
+        this.canvas.setPointerCapture(e.pointerId);
         this.mouseDown = true;
         this.ctx?.beginPath();
-        this.ctx?.moveTo(
-            e.pageX - this.canvas.offsetLeft,
-            e.pageY - this.canvas.offsetTop,
-        );
+        this.ctx?.moveTo(coords.x, coords.y);
     }
 
-    private mouseMoveHandler(e: MouseEvent) {
+    private mouseMoveHandler(e: PointerEvent) {
         if (!this.mouseDown || !this.canvas || !this.socket || !this.id) return;
 
         const coords = getCoords(e, this.canvas);
@@ -65,15 +65,14 @@ export default class Brush extends Tool {
     ) {
         if (!ctx) return;
 
-        ctx.save()
+        ctx.save();
 
-        
         ctx.fillStyle = color;
         ctx.strokeStyle = stroke;
         ctx.lineWidth = lineWidth;
         ctx?.lineTo(x, y);
         ctx?.stroke();
 
-        ctx.restore()
+        ctx.restore();
     }
 }
