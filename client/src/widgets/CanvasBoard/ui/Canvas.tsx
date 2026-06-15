@@ -16,11 +16,31 @@ export const Canvas = observer(() => {
     useGetCanvas(canvasRef, id);
     useCanvasSession(canvasRef, id);
 
+    const sendToAI = async (base64: string) => {
+        try {
+            const res = await fetch('http://localhost:5000/predict', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ img: base64 }),
+            });
+
+            const data = await res.json();
+            console.log('AI result:', data.result);
+            console.log('BASE64 LENGTH:', base64.length);
+        } catch (e) {
+            console.log('AI error:', e);
+        }
+    };
+
     const mouseUpHandler = () => {
         if (!canvasRef.current) return;
 
-        historyStore.pushToUndo(canvasRef.current?.toDataURL());
+        const base64 = canvasRef.current.toDataURL('image/png');
+
+        historyStore.pushToUndo(base64);
         postCanvas(canvasRef.current, id);
+
+        sendToAI(base64);
     };
 
     return (

@@ -11,10 +11,14 @@ export function getCanvas(
 
         img.onload = () => {
             if (ctx && canvas) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // 🔥 Вместо clearRect — белый фон
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Рисуем изображение поверх белого
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                ctx.stroke();
             }
         };
     });
 }
+

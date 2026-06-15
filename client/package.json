@@ -12,8 +12,6 @@
         "lint:css:fix": "stylelint \"src/**/*.{css,scss}\" --fix"
     },
     "dependencies": {
-        "@tensorflow-models/mobilenet": "^2.1.1",
-        "@tensorflow/tfjs": "^4.22.0",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
         "axios": "^1.16.1",
