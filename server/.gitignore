@@ -23,3 +23,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 server/quickdraw-model/quickdraw_raw/*.npy
+server/quickdraw-model/quickdraw_raw/
+server/dataset/
