@@ -55,7 +55,7 @@ async function preprocess(imgBuffer) {
     // Если рисунок пустой — fallback
     if (minX > maxX || minY > maxY) {
         return sharpImg
-            .resize(28, 28)
+            .resize(64, 64)
             .raw()
             .toBuffer();
     }
@@ -63,7 +63,7 @@ async function preprocess(imgBuffer) {
     const cropWidth = maxX - minX;
     const cropHeight = maxY - minY;
 
-    // Вырезаем область и уменьшаем до 28×28
+    // Вырезаем область и уменьшаем до 64x64
     const cropped = await sharpImg
         .extract({
             left: minX,
@@ -83,12 +83,10 @@ async function preprocess(imgBuffer) {
 // -------------------------
 async function predict(base64) {
     if (!session) await loadModel();
-
     const imgBuffer = Buffer.from(base64, 'base64');
 
     // Сохраняем debug.png
     fs.writeFileSync("debug.png", imgBuffer);
-    console.log("debug.png saved");
 
     // Автообрезка + grayscale + resize
     const img = await preprocess(imgBuffer);
@@ -96,10 +94,11 @@ async function predict(base64) {
     // Нормализация (без инверсии)
     const floatArray = Float32Array.from(img, (v) => v / 255);
 
+    const inputName = session.inputNames[0];
+
     // NHWC (Keras)
     const tensor = new ort.Tensor('float32', floatArray, [1, 64, 64, 1]);
 
-    const inputName = session.inputNames[0];
 
     let result;
     try {

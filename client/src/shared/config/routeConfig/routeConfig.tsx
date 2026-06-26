@@ -9,6 +9,8 @@ export enum AppRoutes {
     PAINT_ONLINE_NOT_FOUND = 'paint_not_found',
     CROCODILE = 'crocodile',
     CROCODILE_NOT_FOUND = 'crocodile_not_found',
+    CROCODILE_2PLAYERS = 'crocodile_2players',
+    CROCODILE_2PLAYERS_NOT_FOUND = 'crocodile_2players_not_found',
 }
 
 export const routePath: Record<AppRoutes, string> = {
@@ -17,6 +19,8 @@ export const routePath: Record<AppRoutes, string> = {
     [AppRoutes.PAINT_ONLINE_NOT_FOUND]: '/paint-online/*',
     [AppRoutes.CROCODILE]: '/crocodile/:id',
     [AppRoutes.CROCODILE_NOT_FOUND]: '/crocodile/*',
+    [AppRoutes.CROCODILE_2PLAYERS]: '/crocodile-2players/:id',
+    [AppRoutes.CROCODILE_2PLAYERS_NOT_FOUND]: '/crocodile-2players/*',
 };
 
 export const routeConfig: Record<AppRoutes, RouteProps> = {
@@ -46,5 +50,15 @@ export const routeConfig: Record<AppRoutes, RouteProps> = {
     [AppRoutes.CROCODILE_NOT_FOUND]: {
         path: routePath.crocodile_not_found,
         element: <Navigate to={`/crocodile/f${(+new Date()).toString(16)}`} replace />,
+    },
+    [AppRoutes.CROCODILE_2PLAYERS]: {
+        path: routePath.crocodile_2players,
+        element: (
+            <CrocodilePage />
+        ),
+    },
+    [AppRoutes.CROCODILE_2PLAYERS_NOT_FOUND]: {
+        path: routePath.crocodile_2players_not_found,
+        element: <Navigate to={`/crocodile-2players/f${(+new Date()).toString(16)}`} replace />,
     },
 };

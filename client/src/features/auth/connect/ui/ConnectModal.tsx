@@ -1,8 +1,9 @@
 import { useStore } from 'app/providers/storeProvider';
+import { observer } from 'mobx-react-lite';
 import React, { useRef } from 'react';
 import { Modal } from 'shared/ui/Modal/Modal';
 
-export const ConnectModal = () => {
+export const ConnectModal = observer(() => {
     const { userStore } = useStore();
 
     const usernameRef = useRef<HTMLInputElement | null>(null);
@@ -28,4 +29,4 @@ export const ConnectModal = () => {
             <input type="text" ref={usernameRef} />
         </Modal>
     );
-};
+});

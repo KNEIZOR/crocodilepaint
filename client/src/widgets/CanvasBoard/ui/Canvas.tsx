@@ -8,13 +8,21 @@ import { postCanvas, useGetCanvas } from 'entities/Canvas';
 import { useCanvasSession } from 'entities/Session';
 import BackButton from 'shared/ui/BackButton/BackButton';
 
-export const Canvas = observer(() => {
+export type mods = 'paint' | 'crocodile1' | 'crocodile2';
+
+interface CanvasProps {
+    mode: mods;
+}
+
+export const Canvas = observer((props: CanvasProps) => {
+    const { mode } = props;
+
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const { id } = useParams();
     const { historyStore } = useStore();
 
     useGetCanvas(canvasRef, id);
-    useCanvasSession(canvasRef, id);
+    useCanvasSession(canvasRef, id, mode);
 
     const sendToAI = async (base64: string) => {
         try {

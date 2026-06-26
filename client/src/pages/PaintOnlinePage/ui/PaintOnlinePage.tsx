@@ -7,7 +7,7 @@ const PaintOnlinePage = () => {
         <div>
             <ToolBar />
             <SettingBar />
-            <Canvas />
+            <Canvas mode='paint' />
         </div>
     );
 };
