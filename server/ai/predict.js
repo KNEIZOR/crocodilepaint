@@ -1,8 +1,10 @@
 const fs = require('fs');
 const sharp = require('sharp');
 const ort = require('onnxruntime-node');
+const path = require('path');
 
-const labels = JSON.parse(fs.readFileSync('labels.json', 'utf8'));
+const labelsPath = path.join(__dirname, 'labels.json');
+const labels = JSON.parse(fs.readFileSync(labelsPath, 'utf8'));
 
 let session = null;
 
@@ -12,7 +14,8 @@ let session = null;
 async function loadModel() {
     try {
         if (!session) {
-            session = await ort.InferenceSession.create('model.onnx');
+            const modelPath = path.join(__dirname, 'model.onnx');
+            session = await ort.InferenceSession.create(modelPath);
             console.log('ONNX модель загружена');
             console.log('INPUTS:', session.inputNames);
             console.log('OUTPUTS:', session.outputNames);
@@ -36,14 +39,17 @@ async function preprocess(imgBuffer) {
 
     const { width, height } = info;
 
-    let minX = width, minY = height;
-    let maxX = 0, maxY = 0;
+    let minX = width,
+        minY = height;
+    let maxX = 0,
+        maxY = 0;
 
     // Ищем границы рисунка
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
             const v = data[y * width + x];
-            if (v < 250) { // пиксель не белый
+            if (v < 250) {
+                // пиксель не белый
                 if (x < minX) minX = x;
                 if (y < minY) minY = y;
                 if (x > maxX) maxX = x;
@@ -54,10 +60,7 @@ async function preprocess(imgBuffer) {
 
     // Если рисунок пустой — fallback
     if (minX > maxX || minY > maxY) {
-        return sharpImg
-            .resize(64, 64)
-            .raw()
-            .toBuffer();
+        return sharpImg.resize(64, 64).raw().toBuffer();
     }
 
     const cropWidth = maxX - minX;
@@ -69,7 +72,7 @@ async function preprocess(imgBuffer) {
             left: minX,
             top: minY,
             width: cropWidth,
-            height: cropHeight
+            height: cropHeight,
         })
         .resize(64, 64)
         .raw()
@@ -86,7 +89,7 @@ async function predict(base64) {
     const imgBuffer = Buffer.from(base64, 'base64');
 
     // Сохраняем debug.png
-    fs.writeFileSync("debug.png", imgBuffer);
+    fs.writeFileSync('debug.png', imgBuffer);
 
     // Автообрезка + grayscale + resize
     const img = await preprocess(imgBuffer);
@@ -99,13 +102,12 @@ async function predict(base64) {
     // NHWC (Keras)
     const tensor = new ort.Tensor('float32', floatArray, [1, 64, 64, 1]);
 
-
     let result;
     try {
         result = await session.run({ [inputName]: tensor });
     } catch (err) {
-        console.log("MODEL ERROR:", err.message);
-        console.log("TENSOR SHAPE:", tensor.dims);
+        console.log('MODEL ERROR:', err.message);
+        console.log('TENSOR SHAPE:', tensor.dims);
         throw err;
     }
 

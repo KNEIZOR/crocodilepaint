@@ -1,0 +1,34 @@
+.wrapper {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+        width: 60%;
+        background-color: white;
+        text-align: center;
+    }
+}
+
+.cards {
+    width: 60%;
+    height: 40%;
+    display: grid;
+    gap: 10px;
+    margin-top: 50px;
+}
+
+.card {
+    width: 100%;
+    font-size: 24pt;
+}
+
+.active{
+    background-color: rgb(172, 171, 171);
+}

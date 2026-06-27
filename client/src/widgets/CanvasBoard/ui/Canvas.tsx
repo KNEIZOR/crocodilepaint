@@ -12,14 +12,17 @@ export type mods = 'paint' | 'crocodile1' | 'crocodile2';
 
 interface CanvasProps {
     mode: mods;
+    word?: string | null
 }
 
 export const Canvas = observer((props: CanvasProps) => {
-    const { mode } = props;
+    const { mode, word } = props;
     const [aiWord, setAiWord] = useState('');
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const { id } = useParams();
     const { historyStore } = useStore();
+    const [win, setWin] = useState(false)
+
 
     useGetCanvas(canvasRef, id);
     useCanvasSession(canvasRef, id, mode);
@@ -34,6 +37,10 @@ export const Canvas = observer((props: CanvasProps) => {
 
             const data = await res.json();
             setAiWord(data.result);
+
+            if(data.result === word) {
+                setWin(true)
+            }
             console.log('AI result:', data.result);
         } catch (e) {
             console.log('AI error:', e);
@@ -56,6 +63,8 @@ export const Canvas = observer((props: CanvasProps) => {
     return (
         <div className={cls.canvas}>
             <div className={cls.aiAnswer}>
+                {win && <h1>Вы победили</h1>}
+                {word && <h2>Ваше слово: {word}</h2>}
                 {(mode === 'crocodile1' || mode === 'crocodile2') && (
                     <h2>Я думаю это: {aiWord}</h2>
                 )}
