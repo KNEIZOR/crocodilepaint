@@ -3,6 +3,8 @@ import { makeAutoObservable } from 'mobx';
 export class UserState {
     username = '';
     isModalOpen = true;
+    isReady = true;
+    startTimer = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -18,5 +20,13 @@ export class UserState {
 
     closeModal() {
         this.isModalOpen = false;
+    }
+
+    setIsReady(ready: boolean) {
+        this.isReady = ready;
+    }
+
+    setStartTimer(start: boolean) {
+        this.startTimer = start;
     }
 }

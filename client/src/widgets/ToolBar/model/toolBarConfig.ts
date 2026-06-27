@@ -4,9 +4,6 @@ import Eraser from 'features/canvasTools/eraser/Eraser';
 import Line from 'features/canvasTools/line/Line';
 import Rect from 'features/canvasTools/rect/Rect';
 
-import { redoService } from 'features/canvasRedo/canvasRedo';
-import { undoService } from 'features/canvasUndo/canvasUndo';
-
 import { ToolState } from 'entities/Tool/model/state/ToolState';
 import { SessionStore } from 'entities/Session/model/state/sessionStore';
 import { CanvasState } from 'entities/Canvas/model/state/сanvasState';
@@ -129,21 +126,6 @@ export const createToolbarConfig = ({
         type: 'input',
         inputType: 'color',
         onChange: (value) => toolStore.setFillColor(value),
-    },
-
-    {
-        type: 'button',
-        icon: undoIcon,
-        className: 'undo',
-        onClick: () =>
-            undoService.undo(sessionStore.socket, sessionStore.sessionId),
-    },
-
-    {
-        type: 'button',
-        icon: redoIcon,
-        className: 'redo',
-        onClick: () => redoService.redo(),
     },
 
     {

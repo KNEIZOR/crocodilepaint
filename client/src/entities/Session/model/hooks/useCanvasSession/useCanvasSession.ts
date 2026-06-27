@@ -7,7 +7,7 @@ import { mods } from 'widgets/CanvasBoard/ui/Canvas';
 export const useCanvasSession = (
     canvasRef: RefObject<HTMLCanvasElement | null>,
     id: string | undefined,
-    mode: mods
+    mode: mods,
 ) => {
     const { toolStore, sessionStore, userStore } = useStore();
     const canvas = canvasRef.current;
@@ -15,12 +15,17 @@ export const useCanvasSession = (
     useEffect(() => {
         if (!userStore.username || !id || !canvas) return;
 
-        const socket = connectSocketData(id, userStore.username, canvas, mode);
+        const socket = connectSocketData(
+            id,
+            userStore.username,
+            canvas,
+            mode,
+        );
 
         sessionStore.setSoket(socket);
         sessionStore.setSessionId(id);
         toolStore.setTool(new Brush(canvas, socket, id));
-        
+
         return () => socket.close();
     }, [userStore.username, canvas, id]);
 };

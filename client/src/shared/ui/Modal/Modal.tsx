@@ -8,11 +8,10 @@ interface IModalProps {
     submitText: string;
     children: ReactNode;
     onSubmit: () => void;
-    onClose: () => void;
 }
 
 export const Modal = (props: IModalProps) => {
-    const { isOpen, title, children, submitText, onClose, onSubmit } = props;
+    const { isOpen, title, children, submitText, onSubmit } = props;
 
     return (
         <Portal>
@@ -21,9 +20,9 @@ export const Modal = (props: IModalProps) => {
                     <div className={cls.content}>
                         <h1>{title}</h1>
 
-                        <p>{children}</p>
+                        <div>{children}</div>
 
-                        <button onClick={() => [onSubmit(), onClose()]}>{submitText}</button>
+                        <button className={cls.button} onClick={() => onSubmit()}>{submitText}</button>
                     </div>
                 </div>
             </div>}

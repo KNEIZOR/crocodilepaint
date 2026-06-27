@@ -24,8 +24,8 @@ export const ConnectModal = observer(() => {
             title="Введите ваше имя"
             submitText="Войти"
             onSubmit={connectHandler}
-            onClose={() => userStore.closeModal()}
         >
+            
             <input type="text" ref={usernameRef} />
         </Modal>
     );

@@ -23,36 +23,40 @@ app.ws('/', (ws, req) => {
     ws.on('message', (msg) => {
         try {
             msg = JSON.parse(msg);
-
         } catch (e) {
             console.log('Ошибка JSON:', e);
             return;
         }
 
         if (msg.method === 'connection') {
-            const roomId = msg.id
-            const mode = msg.mode
+            const roomId = msg.id;
+            const mode = msg.mode;
 
             switch (mode) {
                 case 'paint':
-                    joinRoom(ws, roomId, Infinity)
+                    joinRoom(ws, roomId, Infinity);
                     break;
 
                 case 'crocodile1':
-                    joinRoom(ws, roomId, 1)
+                    joinRoom(ws, roomId, 1);
                     break;
 
                 case 'crocodile2':
-                    joinRoom(ws, roomId, 2)
+                    joinRoom(ws, roomId, 2);
+
                     break;
-            
+
                 default:
                     break;
             }
         }
 
-        if(msg.method === 'draw') {
-            broadcastConnection(ws, msg)
+        if (msg.method === 'draw') {
+            broadcastConnection(ws, msg);
+        }
+
+        if (msg.method === 'ready') {
+            isReady(ws, msg);
         }
     });
 });
@@ -115,12 +119,12 @@ app.post('/predict', async (req, res) => {
 app.listen(PORT, () => console.log(`server started on PORT ${PORT}`));
 
 const broadcastConnection = (ws, msg) => {
-    const room = rooms[ws.roomId]
-    if(!room) return
+    const room = rooms[ws.roomId];
+    if (!room) return;
 
-    room.clients.forEach(client => {
-        client.send(JSON.stringify(msg))
-    })
+    room.clients.forEach((client) => {
+        client.send(JSON.stringify(msg));
+    });
 };
 
 const joinRoom = (ws, roomId, maxPlayers) => {
@@ -139,6 +143,8 @@ const joinRoom = (ws, roomId, maxPlayers) => {
         return;
     }
 
+    ws.ready = false;
+
     room.clients.push(ws);
     ws.roomId = roomId;
 
@@ -149,4 +155,27 @@ const joinRoom = (ws, roomId, maxPlayers) => {
             delete room[roomId];
         }
     });
+};
+
+const isReady = (ws, msg) => {
+    const room = rooms[ws.roomId];
+    if (!room) return;
+
+    if (msg.ready === true) {
+        ws.ready = msg.ready;
+    }
+
+    if (room.clients.length === 2) {
+        const allReady = room.clients.every((c) => c.ready === true);
+
+        if (allReady) {
+            room.clients.forEach((client) => {
+                client.send(
+                    JSON.stringify({
+                        method: 'start',
+                    }),
+                );
+            });
+        }
+    }
 };

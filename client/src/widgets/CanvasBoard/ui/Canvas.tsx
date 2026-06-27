@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import cls from './canvas.module.scss';
 import { observer } from 'mobx-react-lite';
 import { useParams } from 'react-router-dom';
@@ -16,7 +16,7 @@ interface CanvasProps {
 
 export const Canvas = observer((props: CanvasProps) => {
     const { mode } = props;
-
+    const [aiWord, setAiWord] = useState('');
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const { id } = useParams();
     const { historyStore } = useStore();
@@ -33,8 +33,8 @@ export const Canvas = observer((props: CanvasProps) => {
             });
 
             const data = await res.json();
+            setAiWord(data.result);
             console.log('AI result:', data.result);
-            console.log('BASE64 LENGTH:', base64.length);
         } catch (e) {
             console.log('AI error:', e);
         }
@@ -48,11 +48,18 @@ export const Canvas = observer((props: CanvasProps) => {
         historyStore.pushToUndo(base64);
         postCanvas(canvasRef.current, id);
 
-        sendToAI(base64);
+        if (mode === 'crocodile1' || mode === 'crocodile2') {
+            sendToAI(base64);
+        }
     };
 
     return (
         <div className={cls.canvas}>
+            <div className={cls.aiAnswer}>
+                {(mode === 'crocodile1' || mode === 'crocodile2') && (
+                    <h2>Я думаю это: {aiWord}</h2>
+                )}
+            </div>
             <ConnectModal />
             <BackButton />
             <canvas

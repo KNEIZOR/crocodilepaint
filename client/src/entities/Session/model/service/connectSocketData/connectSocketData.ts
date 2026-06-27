@@ -1,12 +1,14 @@
 import { drawHandler } from 'shared/lib/drawHandler/drawHandler';
 import { WsData } from '../../types/session';
 import { mods } from 'widgets/CanvasBoard/ui/Canvas';
+import { useStore } from 'app/providers/storeProvider';
+import { userState } from 'entities/User';
 
 export function connectSocketData(
     id: string | undefined,
     username: string,
     canvas: HTMLCanvasElement | null,
-    mode: mods
+    mode: mods,
 ) {
     const socket = new WebSocket('ws://localhost:5000/');
 
@@ -16,7 +18,7 @@ export function connectSocketData(
                 id,
                 username,
                 method: 'connection',
-                mode
+                mode,
             }),
         );
     };
@@ -28,6 +30,9 @@ export function connectSocketData(
                 break;
             case 'draw':
                 drawHandler(msg, canvas);
+                break;
+            case 'start':
+                userState.setStartTimer(true)
                 break;
         }
     };

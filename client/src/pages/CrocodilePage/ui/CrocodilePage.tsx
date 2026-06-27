@@ -1,27 +1,15 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
 import { Canvas } from 'widgets/CanvasBoard';
-import { mods } from 'widgets/CanvasBoard/ui/Canvas';
 import { SettingBar } from 'widgets/SettingBar';
 import { ToolBar } from 'widgets/ToolBar';
+import { useCrocodileMode } from '../model/useCrocodileMode';
+import ConfirmReady from 'features/confirmReady/ui/ConfirmReady';
 
 const CrocodilePage = () => {
-    const location = useLocation();
-    const words = ['crocodile', 'crocodile-2players'];
-    
-    let mode: mods = 'crocodile1'; 
-    
-    if (location.pathname.includes(words[1])) {
-        mode = 'crocodile2';
-    } else if (location.pathname.includes(words[0])) {
-        mode = 'crocodile1';
-    }
-
-    console.log(mode);
-    
+    const mode = useCrocodileMode();
 
     return (
         <div>
+            {mode === 'crocodile2' && <ConfirmReady />}
             <ToolBar />
             <SettingBar />
             <Canvas mode={mode} />
