@@ -82,10 +82,18 @@ const sendWin = (room, username, word) => {
     });
 };
 
+const setWord = (ws, msg) => {
+    const room = getRoom(ws.roomId);
+    if (!room) return;
+
+    room.targetWord = msg.word; // сохраняем слово раунда
+};
+
 module.exports = {
     joinRoom,
     broadcastConnection,
     isReady,
     newRound,
     sendWin,
+    setWord,
 };

@@ -3,6 +3,7 @@ const {
     broadcastConnection,
     isReady,
     newRound,
+    setWord
 } = require('./events');
 
 module.exports = (app) => {
@@ -30,6 +31,10 @@ module.exports = (app) => {
 
                 case 'newRound':
                     newRound(ws);
+                    break;
+
+                case 'setWord':
+                    setWord(ws, msg);
                     break;
             }
         });

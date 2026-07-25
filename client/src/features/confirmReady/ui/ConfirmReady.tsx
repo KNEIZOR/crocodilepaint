@@ -11,7 +11,7 @@ const ConfirmReady = observer(() => {
 
     const timeoutRef = useRef<number | null>(null);
     const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-    const [timerTime, setTimerTime] = useState(10);
+    const [timerTime, setTimerTime] = useState(5);
 
     const handleSubmit = () => {
         setTextShow(true);
@@ -26,7 +26,7 @@ const ConfirmReady = observer(() => {
     useEffect(() => {
         if (!userState.startTimer) return;
 
-        setTimerTime(10);
+        setTimerTime(5);
 
         intervalRef.current = setInterval(() => {
             setTimerTime((prev) => {

@@ -11,7 +11,7 @@ module.exports = (app) => {
             const room = getRoom(req.body.roomId);
             if (!room) return res.json({ result });
 
-            if (!room.winner) {
+            if (!room.winner && room.targetWord && result === room.targetWord) {
                 sendWin(room, req.body.username, result);
             }
 

@@ -2,6 +2,7 @@ export interface WsData {
     id: string;
     method: string;
     username: string;
+    word: string;
     figure: {
         type: string;
         x?: number;

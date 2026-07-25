@@ -1,7 +1,6 @@
 import { drawHandler } from 'shared/lib/drawHandler/drawHandler';
 import { WsData } from '../../types/session';
 import { mods } from 'widgets/CanvasBoard/ui/Canvas';
-import { useStore } from 'app/providers/storeProvider';
 import { userState } from 'entities/User';
 
 export function connectSocketData(
@@ -32,7 +31,11 @@ export function connectSocketData(
                 drawHandler(msg, canvas);
                 break;
             case 'start':
-                userState.setStartTimer(true)
+                userState.setStartTimer(true);
+                break;
+            case 'win':
+                userState.setWinner(msg.username);
+                userState.setWordWinner(msg.word);
                 break;
         }
     };
